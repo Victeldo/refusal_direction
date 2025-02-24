@@ -96,21 +96,13 @@ def act_add_qwen_weights(model, direction: Float[Tensor, "d_model"], coeff, laye
 class QwenModel(ModelBase):
 
     def _load_model(self, model_path, dtype=torch.float16):
-        model_kwargs = {}
-        model_kwargs.update({"use_flash_attn": True})
-        if dtype != "auto":
-            model_kwargs.update({
-                "bf16": dtype==torch.bfloat16,
-                "fp16": dtype==torch.float16,
-                "fp32": dtype==torch.float32,
-            })
 
         model = AutoModelForCausalLM.from_pretrained(
             model_path,
             torch_dtype=dtype,
             trust_remote_code=True,
+            torch_dtype=torch.float16,
             device_map="auto",
-            **model_kwargs,
         ).eval()
 
         model.requires_grad_(False) 
@@ -126,7 +118,7 @@ class QwenModel(ModelBase):
 
         tokenizer.padding_side = 'left'
         tokenizer.pad_token = '<|extra_0|>'
-        tokenizer.pad_token_id = tokenizer.eod_id # See https://github.com/QwenLM/Qwen/blob/main/FAQ.md#tokenizer
+        tokenizer.pad_token_id = tokenizer.eos_token_id # See https://github.com/QwenLM/Qwen/blob/main/FAQ.md#tokenizer
 
         return tokenizer
 

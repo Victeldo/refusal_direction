@@ -12,6 +12,12 @@ import litellm
 import time
 from litellm import RateLimitError, ServiceUnavailableError
 
+from tenacity import retry, wait_exponential, stop_after_attempt, retry_if_exception_type
+
+# Replace with the actual import path for ServiceUnavailableError
+from together_ai_sdk.exceptions import ServiceUnavailableError
+
+
 # based on https://github.com/JailbreakBench/jailbreakbench/blob/4dbcc097739dd684fbf789cc3d4f97372bd72851/src/jailbreakbench/classifier.py
 # augmented with some additional prefixes
 _test_prefixes_jailbreakbench = [
