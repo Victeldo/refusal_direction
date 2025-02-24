@@ -101,7 +101,6 @@ class QwenModel(ModelBase):
             model_path,
             torch_dtype=dtype,
             trust_remote_code=True,
-            torch_dtype=torch.float16,
             device_map="auto",
         ).eval()
 
