@@ -1,4 +1,6 @@
 
+# Qwen 2/2.5 implementation
+
 import torch
 import functools
 
@@ -131,10 +133,10 @@ class QwenModel(ModelBase):
         return QWEN_REFUSAL_TOKS
 
     def _get_model_block_modules(self):
-        return self.model.transformer.h
+        return self.model.model.layers
 
     def _get_attn_modules(self):
-        return torch.nn.ModuleList([block_module.attn for block_module in self.model_block_modules])
+        return torch.nn.ModuleList([block_module.self_attn for block_module in self.model_block_modules])
     
     def _get_mlp_modules(self):
         return torch.nn.ModuleList([block_module.mlp for block_module in self.model_block_modules])
