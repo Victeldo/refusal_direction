@@ -14,6 +14,9 @@ def construct_model_base(model_path: str) -> ModelBase:
     elif 'gemma' in model_path.lower():
         from pipeline.model_utils.gemma_model import GemmaModel
         return GemmaModel(model_path) 
+    elif 'mistral' in model_path.lower():
+        from pipeline.model_utils.yi_model import MistralModel
+        return MistralModel(model_path)
     elif 'yi' in model_path.lower():
         from pipeline.model_utils.yi_model import YiModel
         return YiModel(model_path)
